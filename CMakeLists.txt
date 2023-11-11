@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 project(LeagueGameReader LANGUAGES CXX)
 
-option(LeagueGameReader_Requests	"Build LeagueGameReader with remote settings support"	ON)
-option(LeagueGameReader_Python		"Build LeagueGameReader bindings for Python"			ON)
-option(LeagueGameReader_NodeJS		"Build LeagueGameReader bindings for NodeJS"			OFF)
-option(LeagueGameReader_Example		"Build LeagueGameReader example for C++"				ON)
+option(LeagueGameReader_RemoteSettings	"Build LeagueGameReader with remote settings support"	ON)
+option(LeagueGameReader_Python			"Build LeagueGameReader bindings for Python"			ON)
+option(LeagueGameReader_NodeJS			"Build LeagueGameReader bindings for NodeJS"			OFF)
+option(LeagueGameReader_Example			"Build LeagueGameReader example for C++"				ON)
 
 # Find python
 find_package (Python3 COMPONENTS Interpreter Development)
@@ -45,7 +45,7 @@ add_library(LeagueGameReader ${LGR_SRC})
 target_include_directories(LeagueGameReader PUBLIC	inc)
 target_include_directories(LeagueGameReader PRIVATE	src)
 
-if (LeagueGameReader_Requests)
+if (LeagueGameReader_RemoteSettings)
 	target_compile_definitions(LeagueGameReader PUBLIC LGR_REMOTE_SETTINGS)
 endif ()
 
