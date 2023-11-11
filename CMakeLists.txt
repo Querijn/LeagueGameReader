@@ -6,8 +6,16 @@ option(LeagueGameReader_Python			"Build LeagueGameReader bindings for Python"			
 option(LeagueGameReader_NodeJS			"Build LeagueGameReader bindings for NodeJS"			OFF)
 option(LeagueGameReader_Example			"Build LeagueGameReader example for C++"				ON)
 
+FIND_PACKAGE(SWIG REQUIRED)
+INCLUDE(${SWIG_USE_FILE})
+
 # Find python
-find_package (Python3 COMPONENTS Interpreter Development)
+if (LeagueGameReader_Python)
+	find_package (Python3 COMPONENTS Interpreter Development)
+	if (NOT Python3_FOUND)
+		message(FATAL_ERROR "Python3 not found, but LeagueGameReader_Python is enabled")
+	endif ()
+endif ()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 function(ADD_SRC var folder inc src)
@@ -41,7 +49,11 @@ if (LeagueGameReader_NodeJS)
 	ADD_SRC(LGR_SRC	"SWIG"		""													"src/js_swig.cpp")
 endif ()
 
-add_library(LeagueGameReader ${LGR_SRC})
+set_property(SOURCE swig.i PROPERTY CPLUSPLUS ON)
+set_property(SOURCE swig.i PROPERTY SWIG_FLAGS "-includeall")
+set_property(SOURCE swig.i PROPERTY USE_TARGET_INCLUDE_DIRECTORIES ON)
+swig_add_library(LeagueGameReader TYPE STATIC LANGUAGE python SOURCES ${LGR_SRC})
+
 target_include_directories(LeagueGameReader PUBLIC	inc)
 target_include_directories(LeagueGameReader PRIVATE	src)
 
@@ -50,6 +62,7 @@ if (LeagueGameReader_RemoteSettings)
 endif ()
 
 if (LeagueGameReader_Python)
+	SWIG_LINK_LIBRARIES(LeagueGameReader ${PYTHON_LIBRARIES})
 	target_include_directories(LeagueGameReader PRIVATE	${Python3_INCLUDE_DIRS})
 	target_compile_definitions(LeagueGameReader PUBLIC LGR_PYTHON)
 endif ()
@@ -74,7 +87,7 @@ if (LeagueGameReader_Example)
 						CXX_EXTENSIONS OFF)
 					
 	add_executable(LeagueGameReaderExample ${LGR_EXAMPLE_SRC})
-	target_include_directories(LeagueGameReaderExample PUBLIC	inc)
+	target_include_directories(LeagueGameReaderExample PUBLIC inc)
 	target_link_libraries(LeagueGameReaderExample LeagueGameReader)
 
 	if (WIN32)
@@ -86,6 +99,7 @@ if (LeagueGameReader_Example)
 						VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
 						CXX_STANDARD 20
 						CXX_EXTENSIONS OFF
+						SWIG_USE_TARGET_INCLUDE_DIRECTORIES ON
 						)
 	set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT LeagueGameReaderExample)
 endif ()

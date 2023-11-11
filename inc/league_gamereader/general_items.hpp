@@ -3,8 +3,6 @@
 #include <league_gamereader/types.hpp>
 #include <league_gamereader/game_object.hpp>
 
-#include <vector>
-
 namespace LeagueGameReader
 {
 	struct Snapshot

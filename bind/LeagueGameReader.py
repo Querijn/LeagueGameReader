@@ -58,4 +58,64 @@ class _SwigNonDynamicMeta(type):
     __setattr__ = _swig_setattr_nondynamic_class_variable(type.__setattr__)
 
 
+class SwigPyIterator(object):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _LeagueGameReader.delete_SwigPyIterator
+
+    def value(self):
+        return _LeagueGameReader.SwigPyIterator_value(self)
+
+    def incr(self, n=1):
+        return _LeagueGameReader.SwigPyIterator_incr(self, n)
+
+    def decr(self, n=1):
+        return _LeagueGameReader.SwigPyIterator_decr(self, n)
+
+    def distance(self, x):
+        return _LeagueGameReader.SwigPyIterator_distance(self, x)
+
+    def equal(self, x):
+        return _LeagueGameReader.SwigPyIterator_equal(self, x)
+
+    def copy(self):
+        return _LeagueGameReader.SwigPyIterator_copy(self)
+
+    def next(self):
+        return _LeagueGameReader.SwigPyIterator_next(self)
+
+    def __next__(self):
+        return _LeagueGameReader.SwigPyIterator___next__(self)
+
+    def previous(self):
+        return _LeagueGameReader.SwigPyIterator_previous(self)
+
+    def advance(self, n):
+        return _LeagueGameReader.SwigPyIterator_advance(self, n)
+
+    def __eq__(self, x):
+        return _LeagueGameReader.SwigPyIterator___eq__(self, x)
+
+    def __ne__(self, x):
+        return _LeagueGameReader.SwigPyIterator___ne__(self, x)
+
+    def __iadd__(self, n):
+        return _LeagueGameReader.SwigPyIterator___iadd__(self, n)
+
+    def __isub__(self, n):
+        return _LeagueGameReader.SwigPyIterator___isub__(self, n)
+
+    def __add__(self, n):
+        return _LeagueGameReader.SwigPyIterator___add__(self, n)
+
+    def __sub__(self, *args):
+        return _LeagueGameReader.SwigPyIterator___sub__(self, *args)
+    def __iter__(self):
+        return self
+
+# Register SwigPyIterator in _LeagueGameReader:
+_LeagueGameReader.SwigPyIterator_swigregister(SwigPyIterator)
 
