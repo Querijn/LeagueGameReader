@@ -9,7 +9,6 @@
 #include <stdexcept>
 #include <thread>
 #include <vector>
-#include <wininet.h>
 
 #include "game_reader.hpp"
 #include "process.hpp"
@@ -22,13 +21,13 @@
 	#define NUMCHARS(x) (sizeof(x) / sizeof(TCHAR))
 #endif
 
-#ifndef _UT
-	#define _UT(x) L##x
+#if LGR_REMOTE_SETTINGS
+	#include <wininet.h>
+	#pragma comment(lib, "wininet.lib")
 #endif
 
 #pragma comment(lib, "psapi.lib")
 #pragma comment(lib, "version.lib")
-#pragma comment(lib, "wininet.lib")
 
 namespace LeagueGameReader
 {
@@ -152,6 +151,7 @@ namespace LeagueGameReader
 
 	bool LoadRemoteSettings()
 	{
+#if LGR_REMOTE_SETTINGS
 		wchar_t processName[MAX_PATH];
 		if (GetProcessFileName(processName, MAX_PATH) != S_OK)
 			return false;
@@ -185,6 +185,8 @@ namespace LeagueGameReader
 		InternetCloseHandle(request);
 		InternetCloseHandle(client);
 		g_settings.Load(responseBody.c_str());
+#endif
+
 		return g_settings.IsValid();
 	}
 
