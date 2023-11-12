@@ -6,9 +6,6 @@ option(LeagueGameReader_Python			"Build LeagueGameReader bindings for Python"			
 option(LeagueGameReader_NodeJS			"Build LeagueGameReader bindings for NodeJS"			OFF)
 option(LeagueGameReader_Example			"Build LeagueGameReader example for C++"				ON)
 
-# Find python
-find_package (Python3 COMPONENTS Interpreter Development)
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 function(ADD_SRC var folder inc src)
 	source_group(${folder} FILES ${inc} ${src})
