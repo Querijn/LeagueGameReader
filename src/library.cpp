@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <thread>
 #include <vector>
+#include <mutex>
 
 #include "game_reader.hpp"
 #include "process.hpp"
