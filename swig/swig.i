@@ -8,3 +8,5 @@
 %}
 
 %include <league_gamereader.hpp>
+%template(GameObjectVector) std::vector<LeagueGameReader::GameObject>;
+

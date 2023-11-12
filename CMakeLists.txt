@@ -6,16 +6,8 @@ option(LeagueGameReader_Python			"Build LeagueGameReader bindings for Python"			
 option(LeagueGameReader_NodeJS			"Build LeagueGameReader bindings for NodeJS"			OFF)
 option(LeagueGameReader_Example			"Build LeagueGameReader example for C++"				ON)
 
-FIND_PACKAGE(SWIG REQUIRED)
-INCLUDE(${SWIG_USE_FILE})
-
 # Find python
-if (LeagueGameReader_Python)
-	find_package (Python3 COMPONENTS Interpreter Development)
-	if (NOT Python3_FOUND)
-		message(FATAL_ERROR "Python3 not found, but LeagueGameReader_Python is enabled")
-	endif ()
-endif ()
+find_package (Python3 COMPONENTS Interpreter Development)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 function(ADD_SRC var folder inc src)
@@ -39,21 +31,9 @@ ADD_SRC(LGR_SRC	"Library"		"inc/league_gamereader/general_items.hpp"			"")
 ADD_SRC(LGR_SRC	"Reader"		"src/game_reader.hpp"								"src/game_reader.cpp")
 ADD_SRC(LGR_SRC	"Process"		"src/process.hpp"									"src/process.cpp")
 ADD_SRC(LGR_SRC	"Settings"		"src/settings.hpp"									"src/settings.cpp")
-ADD_SRC(LGR_SRC	"\\"			""													"swig.i")
+ADD_SRC(LGR_SRC	"\\"			""													"swig/swig.i")
 
-# Generated files
-if (LeagueGameReader_Python)
-	ADD_SRC(LGR_SRC	"SWIG"		""													"src/py_swig.cpp")
-endif ()
-if (LeagueGameReader_NodeJS)
-	ADD_SRC(LGR_SRC	"SWIG"		""													"src/js_swig.cpp")
-endif ()
-
-set_property(SOURCE swig.i PROPERTY CPLUSPLUS ON)
-set_property(SOURCE swig.i PROPERTY SWIG_FLAGS "-includeall")
-set_property(SOURCE swig.i PROPERTY USE_TARGET_INCLUDE_DIRECTORIES ON)
-swig_add_library(LeagueGameReader TYPE STATIC LANGUAGE python SOURCES ${LGR_SRC})
-
+add_library(LeagueGameReader ${LGR_SRC})
 target_include_directories(LeagueGameReader PUBLIC	inc)
 target_include_directories(LeagueGameReader PRIVATE	src)
 
@@ -61,19 +41,13 @@ if (LeagueGameReader_RemoteSettings)
 	target_compile_definitions(LeagueGameReader PUBLIC LGR_REMOTE_SETTINGS)
 endif ()
 
-if (LeagueGameReader_Python)
-	SWIG_LINK_LIBRARIES(LeagueGameReader ${PYTHON_LIBRARIES})
-	target_include_directories(LeagueGameReader PRIVATE	${Python3_INCLUDE_DIRS})
-	target_compile_definitions(LeagueGameReader PUBLIC LGR_PYTHON)
-endif ()
-
-if (LeagueGameReader_NodeJS)
-	target_compile_definitions(LeagueGameReader PUBLIC LGR_NODEJS)
-endif ()
-
 if (WIN32)
 	target_compile_definitions(LeagueGameReader PUBLIC WIN32_LEAN_AND_MEAN)
 	target_compile_definitions(LeagueGameReader PUBLIC NOMINMAX)
+endif ()
+
+if (LeagueGameReader_NodeJS OR LeagueGameReader_Python)
+	add_subdirectory(swig)
 endif ()
 
 # Example source code
@@ -99,7 +73,6 @@ if (LeagueGameReader_Example)
 						VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
 						CXX_STANDARD 20
 						CXX_EXTENSIONS OFF
-						SWIG_USE_TARGET_INCLUDE_DIRECTORIES ON
 						)
 	set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT LeagueGameReaderExample)
 endif ()

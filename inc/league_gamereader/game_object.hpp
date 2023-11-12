@@ -1,5 +1,7 @@
 #pragma once
 
+#include <league_gamereader/types.hpp>
+
 namespace LeagueGameReader
 {
 	struct Float3

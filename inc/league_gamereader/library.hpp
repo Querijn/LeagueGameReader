@@ -3,6 +3,7 @@
 namespace LeagueGameReader
 {
 	struct GameObjectManager;
+	struct GameObject;
 	struct Snapshot;
 
 	enum class ConnectStatus
