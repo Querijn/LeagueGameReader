@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.15)
 project(LeagueGameReader LANGUAGES CXX)
 
 option(LeagueGameReader_RemoteSettings	"Build LeagueGameReader with remote settings support"	ON)
-option(LeagueGameReader_Python			"Build LeagueGameReader bindings for Python"			ON)
+option(LeagueGameReader_Python			"Build LeagueGameReader bindings for Python"			OFF)
 option(LeagueGameReader_NodeJS			"Build LeagueGameReader bindings for NodeJS"			OFF)
-option(LeagueGameReader_Example			"Build LeagueGameReader example for C++"				ON)
+option(LeagueGameReader_Example			"Build LeagueGameReader example for C++"				OFF)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 function(ADD_SRC var folder inc src)
