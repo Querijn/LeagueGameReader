@@ -1,11 +1,10 @@
-target_include_directories(LeagueGameReader PRIVATE ${Python3_INCLUDE_DIRS})
-target_compile_definitions(LeagueGameReader PUBLIC  LGR_PYTHON)
-
 find_package (Python3 COMPONENTS Interpreter Development)
 if (NOT Python3_FOUND)
 	message(FATAL_ERROR "Python3 not found, but LeagueGameReader_Python is enabled")
 endif ()
 
+target_include_directories(LeagueGameReader PRIVATE ${Python3_INCLUDE_DIRS})
+target_compile_definitions(LeagueGameReader PUBLIC  LGR_PYTHON)
 
 set(CMAKE_SWIG_FLAGS "")
 set_property(SOURCE ../swig.i PROPERTY CPLUSPLUS ON)
