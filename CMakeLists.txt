@@ -50,15 +50,15 @@ if (LeagueGameReader_NodeJS OR LeagueGameReader_Python)
 	add_subdirectory(swig)
 endif ()
 
+set_target_properties(LeagueGameReader PROPERTIES
+					VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+					CXX_STANDARD 20
+					CXX_EXTENSIONS OFF)
+
 # Example source code
 if (LeagueGameReader_Example)
 	set(LGR_EXAMPLE_SRC "" CACHE INTERNAL "LeagueGameReader Source Files")
 	ADD_SRC(LGR_EXAMPLE_SRC "\\" "" "src/example.cpp")
-
-	set_target_properties(LeagueGameReader PROPERTIES
-						VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-						CXX_STANDARD 20
-						CXX_EXTENSIONS OFF)
 					
 	add_executable(LeagueGameReaderExample ${LGR_EXAMPLE_SRC})
 	target_include_directories(LeagueGameReaderExample PUBLIC inc)
