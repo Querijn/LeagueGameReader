@@ -1,7 +1,7 @@
 {
     "gameTime": "0x21fe6f8",
     "heroList": "0x21f3fe0",
-    "inhibList": "0x2211bb8",
+    "inhibitorList": "0x2211bb8",
     "localPlayer": "0x22118d8",
     "minionList": "0x21f6f40",
     "objCurrentGold": "0x2180",
